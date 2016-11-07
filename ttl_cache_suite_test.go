@@ -1,4 +1,4 @@
-package main
+package ttlcache
 
 import (
 	. "github.com/onsi/ginkgo"
