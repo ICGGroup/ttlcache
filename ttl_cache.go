@@ -286,18 +286,19 @@ func (g *Group) Delete(key []byte) error {
 		return gbkt.Delete(key)
 
 	})
+
 	if err != nil {
 		return err
 	}
 
-	for i, e := range g.ttlIndex {
-		if bytes.Equal(e.Key, key) {
-			g.ttlIndex = append(g.ttlIndex[:i], g.ttlIndex[i+1:]...)
-			//return nil
+	ttlIndex := []IndexEntry{}
 
+	for _, e := range g.ttlIndex {
+		if !bytes.Equal(e.Key, key) {
+			ttlIndex = append(ttlIndex, e)
 		}
 	}
-
+	g.ttlIndex = ttlIndex
 	return nil
 }
 
